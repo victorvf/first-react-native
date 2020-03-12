@@ -29,6 +29,7 @@ export const SubmitButton = styled(RectButton)`
     border-radius: 4px;
     margin-left: 10px;
     padding: 0 12px;
+    opacity: ${props => props.loading ? 0.7 : 1};
 `;
 
 export const List = styled.FlatList.attrs({
@@ -68,6 +69,7 @@ export const Bio = styled.Text.attrs({
 `;
 
 export const ProfileButton = styled(RectButton)`
+    flex: 1;
     margin-top: 10px;
     background: #7159c1;
     align-self: stretch;
@@ -82,4 +84,19 @@ export const ProfileButtonText = styled.Text`
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
+`;
+
+export const DeleteButton = styled(RectButton)`
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+    border-radius: 4px;
+    background: #FF3D3D;
+
+    align-items: center;
+    justify-content: center;
+`;
+
+export const Buttons = styled.View`
+    flex-direction: row;
 `;
