@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -17,16 +20,47 @@ import {
     Bio,
     ProfileButton,
     ProfileButtonText,
+    DeleteButton,
+    Buttons,
 } from './styles';
 
 export default class Main extends Component {
+    static navigationOptions = {
+        title: 'Usuários',
+    };
+
+    static propTypes = {
+        navigation: PropTypes.shape({
+            navigate: PropTypes.func,
+        }).isRequired,
+    }
+
     state = {
         newUser: '',
         users: [],
+        loading: false,
+    };
+
+    async componentDidMount() {
+        const users = await AsyncStorage.getItem('users');
+
+        if(users){
+            this.setState({ users: JSON.parse(users) });
+        };
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const{ users } = this.state;
+
+        if(prevState.users !== users){
+            AsyncStorage.setItem('users', JSON.stringify(users));
+        };
     };
 
     handleAddUser = async () => {
         const { users, newUser } = this.state;
+
+        this.setState({ loading: true });
 
         const response = await api.get(`/users/${ newUser }`);
 
@@ -40,13 +74,26 @@ export default class Main extends Component {
         this.setState({
             users: [...users, data],
             newUser: '',
+            loading: false,
         });
 
         Keyboard.dismiss();
     };
 
+    handleNavigate = ( user ) => {
+        const { navigation } = this.props;
+
+        navigation.navigate('User', { user });
+    };
+
+    handleDeleteUser = ( user ) => {
+        const { users } = this.state;
+
+        this.setState({ users: users.filter( u => u !== user ) });
+    };
+
     render(){
-        const { users, newUser } = this.state;
+        const { users, newUser, loading } = this.state;
 
         return (
             <Container>
@@ -60,8 +107,12 @@ export default class Main extends Component {
                       returnKeyType="send"
                       onSubmitEditing={ this.handleAddUser }
                     />
-                    <SubmitButton onPress={ this.handleAddUser } >
-                        <Icon name="add" size={ 20 } color="#fff" />
+                    <SubmitButton loading={loading} onPress={ this.handleAddUser } >
+                        {loading ? (
+                            <ActivityIndicator color="#fff"/>
+                        ) : (
+                            <Icon name="add" size={ 20 } color="#fff" />
+                        )}
                     </SubmitButton>
                 </Form>
                 <List
@@ -73,19 +124,24 @@ export default class Main extends Component {
                             <Name>{ item.name }</Name>
                             <Bio>{ item.bio }</Bio>
 
-                            <ProfileButton onPress={()=>{}}>
-                                <ProfileButtonText>
-                                    Ver perfil
-                                </ProfileButtonText>
-                            </ProfileButton>
+                            <Buttons>
+                                <ProfileButton onPress={ () => this.handleNavigate(item) }>
+                                    <ProfileButtonText>
+                                        Ver perfil
+                                    </ProfileButtonText>
+                                </ProfileButton>
+                                <DeleteButton onPress={ () => this.handleDeleteUser(item) }>
+                                    <Icon
+                                        name="delete"
+                                        size={20}
+                                        color="#fff"
+                                    />
+                                </DeleteButton>
+                            </Buttons>
                         </User>
                     )}
                 />
             </Container>
           );
     };
-};
-
-Main.navigationOptions = {
-    title: 'Usuários',
 };
