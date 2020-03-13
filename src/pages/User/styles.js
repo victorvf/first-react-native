@@ -41,7 +41,7 @@ export const Stars = styled.FlatList.attrs({
     margin-top: 20px;
 `;
 
-export const Starred = styled.View`
+export const Starred = styled.TouchableOpacity`
     background: #E2E2E2;
     border-radius: 4px;
     padding: 10px 15px;
@@ -83,7 +83,9 @@ export const NoStars = styled.Text`
     margin-top: 20px;
 `;
 
-export const Loading = styled.ActivityIndicator`
-    color: #666;
+export const Loading = styled.ActivityIndicator.attrs({
+    color: '#666',
+    size: 50,
+})`
     margin-top: 20px;
 `;
