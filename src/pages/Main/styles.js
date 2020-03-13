@@ -87,11 +87,11 @@ export const ProfileButtonText = styled.Text`
 `;
 
 export const DeleteButton = styled(RectButton)`
-    padding: 10px;
+    padding: 0 10px;
     margin-top: 10px;
     margin-left: 5px;
     border-radius: 4px;
-    background: #FF3D3D;
+    background: #FF5656;
 
     align-items: center;
     justify-content: center;
