@@ -10,7 +10,7 @@ export const Form = styled.View`
     flex-direction: row;
     padding-bottom: 20px;
     border-bottom-width: 1px;
-    border-color: #BDBDBD;
+    border-color: #bdbdbd;
 `;
 
 export const Input = styled.TextInput`
@@ -19,7 +19,7 @@ export const Input = styled.TextInput`
     background: #eee;
     border-radius: 4px;
     padding: 0 15px;
-    border: 1px solid #BDBDBD;
+    border: 1px solid #bdbdbd;
 `;
 
 export const SubmitButton = styled(RectButton)`
@@ -29,7 +29,7 @@ export const SubmitButton = styled(RectButton)`
     border-radius: 4px;
     margin-left: 10px;
     padding: 0 12px;
-    opacity: ${props => props.loading ? 0.7 : 1};
+    opacity: ${props => (props.loading ? 0.7 : 1)};
 `;
 
 export const List = styled.FlatList.attrs({
@@ -91,7 +91,7 @@ export const DeleteButton = styled(RectButton)`
     margin-top: 10px;
     margin-left: 5px;
     border-radius: 4px;
-    background: #FF5656;
+    background: #ff5656;
 
     align-items: center;
     justify-content: center;

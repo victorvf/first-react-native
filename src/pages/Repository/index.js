@@ -7,7 +7,7 @@ export default function Repository({ navigation }) {
     const repository = navigation.getParam('repository');
 
     return <Browser source={{ uri: repository.html_url }} />;
-};
+}
 
 Repository.propTypes = {
     navigation: PropTypes.shape({

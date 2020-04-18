@@ -33,7 +33,7 @@ export default class Main extends Component {
         navigation: PropTypes.shape({
             navigate: PropTypes.func,
         }).isRequired,
-    }
+    };
 
     state = {
         newUser: '',
@@ -44,25 +44,25 @@ export default class Main extends Component {
     async componentDidMount() {
         const users = await AsyncStorage.getItem('users');
 
-        if(users){
+        if (users) {
             this.setState({ users: JSON.parse(users) });
-        };
-    };
+        }
+    }
 
     componentDidUpdate(prevProps, prevState) {
-        const{ users } = this.state;
+        const { users } = this.state;
 
-        if(prevState.users !== users){
+        if (prevState.users !== users) {
             AsyncStorage.setItem('users', JSON.stringify(users));
-        };
-    };
+        }
+    }
 
     handleAddUser = async () => {
         const { users, newUser } = this.state;
 
         this.setState({ loading: true });
 
-        const response = await api.get(`/users/${ newUser }`);
+        const response = await api.get(`/users/${newUser}`);
 
         const data = {
             name: response.data.name,
@@ -80,57 +80,64 @@ export default class Main extends Component {
         Keyboard.dismiss();
     };
 
-    handleNavigate = ( user ) => {
+    handleNavigate = user => {
         const { navigation } = this.props;
 
         navigation.navigate('User', { user });
     };
 
-    handleDeleteUser = ( user ) => {
+    handleDeleteUser = user => {
         const { users } = this.state;
 
-        this.setState({ users: users.filter( u => u !== user ) });
+        this.setState({ users: users.filter(u => u !== user) });
     };
 
-    render(){
+    render() {
         const { users, newUser, loading } = this.state;
 
         return (
             <Container>
                 <Form>
                     <Input
-                      autoCorrect={ false }
-                      autoCapitalize="none"
-                      placeholder="Adicionar usuário"
-                      value={ newUser }
-                      onChangeText={text => this.setState({ newUser: text })}
-                      returnKeyType="send"
-                      onSubmitEditing={ this.handleAddUser }
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        placeholder="Adicionar usuário"
+                        value={newUser}
+                        onChangeText={text => this.setState({ newUser: text })}
+                        returnKeyType="send"
+                        onSubmitEditing={this.handleAddUser}
                     />
-                    <SubmitButton loading={loading} onPress={ this.handleAddUser } >
+                    <SubmitButton
+                        loading={loading}
+                        onPress={this.handleAddUser}
+                    >
                         {loading ? (
-                            <ActivityIndicator color="#fff"/>
+                            <ActivityIndicator color="#fff" />
                         ) : (
-                            <Icon name="add" size={ 20 } color="#fff" />
+                            <Icon name="add" size={20} color="#fff" />
                         )}
                     </SubmitButton>
                 </Form>
                 <List
-                    data={ users }
-                    keyExtractor={ user => user.login }
-                    renderItem={ ({ item })=> (
+                    data={users}
+                    keyExtractor={user => user.login}
+                    renderItem={({ item }) => (
                         <User>
                             <Avatar source={{ uri: item.avatar }} />
-                            <Name>{ item.name }</Name>
-                            <Bio>{ item.bio }</Bio>
+                            <Name>{item.name}</Name>
+                            <Bio>{item.bio}</Bio>
 
                             <Buttons>
-                                <ProfileButton onPress={ () => this.handleNavigate(item) }>
+                                <ProfileButton
+                                    onPress={() => this.handleNavigate(item)}
+                                >
                                     <ProfileButtonText>
                                         Ver perfil
                                     </ProfileButtonText>
                                 </ProfileButton>
-                                <DeleteButton onPress={ () => this.handleDeleteUser(item) }>
+                                <DeleteButton
+                                    onPress={() => this.handleDeleteUser(item)}
+                                >
                                     <Icon
                                         name="delete"
                                         size={20}
@@ -142,6 +149,6 @@ export default class Main extends Component {
                     )}
                 />
             </Container>
-          );
-    };
-};
+        );
+    }
+}

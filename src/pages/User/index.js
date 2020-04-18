@@ -40,9 +40,9 @@ export default class User extends Component {
 
     async componentDidMount() {
         this.loadStars();
-    };
+    }
 
-    loadStars = async ( page = 1 ) => {
+    loadStars = async (page = 1) => {
         const { stars } = this.state;
         const { navigation } = this.props;
         const user = navigation.getParam('user');
@@ -68,13 +68,10 @@ export default class User extends Component {
     };
 
     refreshList = () => {
-        this.setState(
-            { refreshing: true, stars: []},
-            this.loadStars
-        );
+        this.setState({ refreshing: true, stars: [] }, this.loadStars);
     };
 
-    handleNavigate = ( repository ) => {
+    handleNavigate = repository => {
         const { navigation } = this.props;
 
         navigation.navigate('Repository', { repository });
@@ -90,38 +87,36 @@ export default class User extends Component {
             <Container>
                 <Header>
                     <Avatar source={{ uri: user.avatar }} />
-                    <Name>{ user.name }</Name>
-                    <Bio>{ user.bio }</Bio>
+                    <Name>{user.name}</Name>
+                    <Bio>{user.bio}</Bio>
                 </Header>
 
-                { loading ? (
+                {loading ? (
                     <Loading />
+                ) : stars.length === 0 ? (
+                    <NoStars>Não possui Stars.</NoStars>
                 ) : (
-                    stars.length === 0 ? (
-                        <NoStars>
-                            Não possui Stars.
-                        </NoStars>
-                    ) : (
-                        <Stars
-                            data={ stars }
-                            onRefresh={ this.refreshList }
-                            refreshing={refreshing}
-                            onEndReachedThreshold={0.2}
-                            onEndReached={this.loadMore}
-                            keyExtractor={ star => String(star.id)}
-                            renderItem={({ item }) => (
-                                <Starred onPress={ () => this.handleNavigate(item) } >
-                                    <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
-                                    <Info>
-                                        <Title>{ item.name }</Title>
-                                        <Author>{ item.owner.login }</Author>
-                                    </Info>
-                                </Starred>
-                            )}
-                        />
-                    )
+                    <Stars
+                        data={stars}
+                        onRefresh={this.refreshList}
+                        refreshing={refreshing}
+                        onEndReachedThreshold={0.2}
+                        onEndReached={this.loadMore}
+                        keyExtractor={star => String(star.id)}
+                        renderItem={({ item }) => (
+                            <Starred onPress={() => this.handleNavigate(item)}>
+                                <OwnerAvatar
+                                    source={{ uri: item.owner.avatar_url }}
+                                />
+                                <Info>
+                                    <Title>{item.name}</Title>
+                                    <Author>{item.owner.login}</Author>
+                                </Info>
+                            </Starred>
+                        )}
+                    />
                 )}
             </Container>
         );
-    };
-};
+    }
+}

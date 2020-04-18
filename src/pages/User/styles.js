@@ -9,7 +9,7 @@ export const Header = styled.View`
     align-items: center;
     padding-bottom: 20px;
     border-bottom-width: 1px;
-    border-color: #BDBDBD;
+    border-color: #bdbdbd;
 `;
 
 export const Avatar = styled.Image`
@@ -42,7 +42,7 @@ export const Stars = styled.FlatList.attrs({
 `;
 
 export const Starred = styled.TouchableOpacity`
-    background: #E2E2E2;
+    background: #e2e2e2;
     border-radius: 4px;
     padding: 10px 15px;
     margin-bottom: 20px;
