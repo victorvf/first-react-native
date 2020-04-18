@@ -15,7 +15,7 @@
 
 <p align="justify">React Native application to consume git API, where we see all stars it has, and when we click on the star, we see it in webview. Technologies used:</p>
 
-- [React](https://reactjs.org/)
+- [React Native](https://reactnative.dev/)
 
 <p align="justify">for code pattern i used:</p>
 
